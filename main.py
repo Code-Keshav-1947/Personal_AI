@@ -14,7 +14,6 @@ def say(text):
     print(f"Assistant: {text}")
     speaker.Speak(text)
 
-
 def takeCommand():
     r = sr.Recognizer()
     r.dynamic_energy_threshold = True  # Automatically adjusts to room noise
@@ -64,7 +63,10 @@ if __name__ == "__main__":
                 print(f"AI Error: {e}")
                 say("I had trouble connecting to the brain.")
 
-        if "open notepad" in query:
+        elif "What is your name" in query or "what is your name" in query:
+            say("My name is JARVIS")
+
+        elif "open notepad" in query:
             say("Opening Notepad for you.")
             os.system("notepad.exe")
 
@@ -80,13 +82,29 @@ if __name__ == "__main__":
             say("Opening MS Paint.")
             os.system("mspaint.exe")
 
-        if "open vs code" in query or "open code" in query:
+        elif "open vs code" in query or "open code" in query:
             say("Opening Visual Studio Code")
             os.system("code")
 
+        elif "open whatsapp" in query:
+            say("Opening Whatsapp for you.")
+            webbrowser.open("https://web.whatsapp.com/")
+
+        elif "open powerpoint" in query:
+            say("Opening PowerPoint for you.")
+            os.system("powerpoint.exe")
+
+        elif "open pycharm" in query:
+            say("Opening Pycharm for you.")
+            os.system("pycharm.exe")
+
+        elif "open python" in query:
+            say("Opening Python For you.")
+            os.system("python.exe")
+
         # --- FEATURE: WEB BROWSING ---
-        elif "open youtube" in query:
             say("Opening Youtube")
+        elif "open youtube" in query:
             webbrowser.open("https://youtube.com")
 
         elif "open google" in query:
