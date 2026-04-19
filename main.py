@@ -3,12 +3,9 @@ import speech_recognition as sr
 import webbrowser
 import wikipedia
 import datetime
-from openai import OpenAI  # New v1.0+ import
 import os
 
-client = OpenAI(api_key="YOUR_OPENAI_API_KEY_HERE")
 speaker = win32com.client.Dispatch("SAPI.SpVoice")
-
 
 def say(text):
     print(f"Assistant: {text}")
@@ -50,21 +47,17 @@ if __name__ == "__main__":
             except Exception:
                 say("I couldn't find a clear page for that.")
 
-        elif "ai" in query or "ask" in query:
-            say("Checking with AI...")
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[{"role": "user", "content": query}]
-                )
-                answer = response.choices[0].message.content
-                say(answer)
-            except Exception as e:
-                print(f"AI Error: {e}")
-                say("I had trouble connecting to the brain.")
-
         elif "What is your name" in query or "what is your name" in query:
             say("My name is JARVIS")
+
+        elif "ai" in query:
+            say("Checking with AI...")
+            try:
+                answer = ask_ai(query)
+                say(answer)
+            except Exception as e:
+                print(e)
+                say("AI connection error")
 
         elif "open notepad" in query:
             say("Opening Notepad for you.")
@@ -103,8 +96,8 @@ if __name__ == "__main__":
             os.system("python.exe")
 
         # --- FEATURE: WEB BROWSING ---
-            say("Opening Youtube")
         elif "open youtube" in query:
+            say("Opening Youtube")
             webbrowser.open("https://youtube.com")
 
         elif "open google" in query:
@@ -112,7 +105,7 @@ if __name__ == "__main__":
             webbrowser.open("https://google.com")
 
         # 1. SHUTDOWN WITH CONFIRMATION
-        if "shutdown the system" in query:
+        elif "shutdown the system" in query:
             say("Are you sure you want to shut down the computer?")
             confirmation = takeCommand()
             if "yes" in confirmation:
